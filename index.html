@@ -31,6 +31,7 @@
     }
     .screen.active { display: flex; animation: arrive .5s ease both; }
     @keyframes arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    
     .screen:before {
       content: "";
       position: absolute;
@@ -40,7 +41,30 @@
       top: -32vw; right: -15vw;
       pointer-events: none;
     }
+    
     .inner { position: relative; width: 100%; max-width: 850px; margin: auto; text-align: center; }
+    
+    /* Botón de retroceso flotante en cada pantalla */
+    .btn-prev {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: var(--pale);
+      color: var(--deep);
+      border: 2px solid var(--bright);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      z-index: 10;
+      transition: transform .18s, background .18s;
+    }
+    .btn-prev:hover { transform: scale(1.1); background: var(--bright); }
+
     h1, h2 { font-family: 'Fraunces', serif; line-height: 1.12; }
     h1 { font-size: clamp(2.5rem, 7vw, 5rem) !important; }
     h2 { font-size: clamp(2rem, 5vw, 3.6rem) !important; }
@@ -80,6 +104,18 @@
     .option { border-radius: 16px; width: 100%; text-align: left; }
     .error-box { margin: 20px auto 0; padding: 20px; border-radius: 18px; background: var(--pale); max-width: 490px; }
     
+    /* Sobre estilo pixel */
+    .pixel-envelope {
+      width: 126px; height: 94px; margin: 24px auto;
+      background: var(--bright); border: 8px solid var(--deep);
+      box-shadow: 9px 9px 0 var(--pale); position: relative;
+    }
+    .pixel-envelope:before {
+      content: ""; position: absolute; inset: 0;
+      clip-path: polygon(0 0, 50% 62%, 100% 0, 100% 15%, 50% 78%, 0 15%);
+      background: var(--deep);
+    }
+
     .levels { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 22px 0; }
     .level[aria-pressed="true"] { background: var(--accent); color: var(--base); border-color: var(--accent); }
     
@@ -94,12 +130,17 @@
       font-size: clamp(1.5rem, 4vw, 2.6rem);
       font-weight: 700;
       transition: transform .25s, background .25s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
     .memory-card.flipped, .memory-card.matched { background: var(--bright); }
     .memory-card.matched { opacity: .65; cursor: default; }
+    
+    .photo-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 600px; margin: 28px auto; }
+    .photo-strip .photo-placeholder { min-height: clamp(120px, 22vw, 220px); border-radius: 14px; }
+    
+    .maze { display: grid; grid-template-columns: repeat(9, 1fr); gap: 3px; max-width: 440px; margin: 22px auto; padding: 8px; border: 2px solid var(--accent); background: var(--pale); border-radius: 12px; }
+    .maze-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: clamp(15px, 3vw, 27px); border-radius: 4px; }
+    .wall { background: var(--deep); } .path { background: var(--base); }
     
     .status { min-height: 32px; font-weight: 700; margin: 12px auto; }
     iframe { max-width: 570px; display: block; margin: 20px auto; border-radius: 12px; }
@@ -129,31 +170,27 @@
 
     <!-- PANTALLA 2: PLAYLIST -->
     <section id="screen-2" class="screen" aria-label="Playlist">
+      <button class="btn-prev" type="button" data-prev="1" title="Anterior">←</button>
       <div class="inner">
         <p class="eyebrow">ANTES DE EMPEZAR</p>
         <h2 class="mt-4">Ponle música a este momento</h2>
         <p class="subtitle">Este juego está acompañado de una playlist especial para nosotras. Dale al play y sigamos juntas.</p>
-        
-        <iframe src="https://open.spotify.com/embed/playlist/43e8RIaxnRQkmiBvEyk5ui?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Playlist especial de Spotify"></iframe>
-        
-        <div style="margin-bottom: 20px;">
-          <a href="https://open.spotify.com/playlist/43e8RIaxnRQkmiBvEyk5ui" target="_blank" rel="noopener noreferrer" class="secondary" style="display: inline-block; text-decoration: none;">
-            🎵 Abrir Playlist en App de Spotify
-          </a>
+        <iframe src="https://open.spotify.com/embed/playlist/43e8RIaxnRQkmiBvEyk5ui?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Playlist"></iframe>
+        <div style="margin-bottom: 15px;">
+          <a href="https://open.spotify.com/playlist/43e8RIaxnRQkmiBvEyk5ui" target="_blank" rel="noopener noreferrer" class="secondary" style="display: inline-block; text-decoration: none;">🎵 Abrir en Spotify App</a>
         </div>
-
         <button class="primary btn-next" type="button" data-next="3">Continuar</button>
       </div>
     </section>
 
     <!-- PANTALLA 3: CUESTIONARIO -->
     <section id="screen-3" class="screen" aria-label="Cuestionario">
+      <button class="btn-prev" type="button" data-prev="2" title="Anterior">←</button>
       <div class="inner panel">
         <p class="eyebrow">RECUERDOS COMPARTIDOS</p>
         <h2 class="mt-3">¿Qué tanto recuerdas?</h2>
         <p id="question-progress" class="status">Pregunta 1 de 3</p>
 
-        <!-- Pregunta 1 -->
         <div id="question-1" class="question-block">
           <h3 class="text-xl font-bold">¿Cuándo nos conocimos?</h3>
           <div class="choices">
@@ -164,7 +201,6 @@
           </div>
         </div>
 
-        <!-- Pregunta 2 -->
         <div id="question-2" class="question-block hidden">
           <h3 class="text-xl font-bold">¿Dónde fue nuestra primera cita?</h3>
           <div class="choices">
@@ -175,7 +211,6 @@
           </div>
         </div>
 
-        <!-- Pregunta 3 -->
         <div id="question-3" class="question-block hidden">
           <h3 class="text-xl font-bold">¿Cuál fue la primera comida que compartimos?</h3>
           <div class="choices">
@@ -186,18 +221,42 @@
           </div>
         </div>
 
-        <!-- Mensaje de Error -->
         <div id="quiz-error" class="error-box hidden">
           <p class="font-bold">¡Ups! Esa no es la respuesta correcta.</p>
           <button id="btn-retry-quiz" class="secondary mt-3" type="button">Reintentar</button>
         </div>
-
-        <button id="quiz-next-screen" class="primary btn-next hidden mt-4" type="button" data-next="4">Siguiente Juego</button>
       </div>
     </section>
 
-    <!-- PANTALLA 4: JUEGO DE MEMORIA -->
-    <section id="screen-4" class="screen" aria-label="Juego de Memoria">
+    <!-- PANTALLA 4: CARTA DE PREMIO -->
+    <section id="screen-4" class="screen" aria-label="Carta de Premio">
+      <button class="btn-prev" type="button" data-prev="3" title="Anterior">←</button>
+      <div class="inner panel">
+        <p class="eyebrow">¡LOGRO DESBLOQUEADO!</p>
+        <h2 class="mt-3">Felicidades</h2>
+        <p class="subtitle">Has completado el cuestionario con éxito. Aquí tienes una carta de premio especial para ti.</p>
+        
+        <div class="pixel-envelope" aria-hidden="true"></div>
+
+        <button class="primary btn-next mt-3" type="button" data-next="5">Abrir</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA 5: VISTA DE CARTA A PANTALLA COMPLETA -->
+    <section id="screen-5" class="screen image-screen" aria-label="Carta Completa">
+      <button class="btn-prev" type="button" data-prev="4" title="Anterior" style="z-index: 20;">←</button>
+      <div class="photo-placeholder full-placeholder">Espacio para imagen de la carta a pantalla completa</div>
+      <div class="image-overlay"></div>
+      <div class="inner">
+        <p class="eyebrow">UN MENSAJE PARA TI</p>
+        <h2 class="my-3" style="font-size: 2rem !important;">Nuestra Carta</h2>
+        <button class="primary btn-next" type="button" data-next="6">Continuar al Juego</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA 6: JUEGO DE MEMORIA -->
+    <section id="screen-6" class="screen" aria-label="Juego de Memoria">
+      <button class="btn-prev" type="button" data-prev="5" title="Anterior">←</button>
       <div class="inner panel">
         <p class="eyebrow">DESAFÍO DE MEMORIA</p>
         <h2 class="mt-3">Encuentra las parejas</h2>
@@ -208,10 +267,57 @@
           <button class="level" type="button" data-level="hard" aria-pressed="false">Difícil (12)</button>
         </div>
 
-        <button id="btn-start-memory" class="primary mb-4" type="button">Iniciar juego</button>
-
+        <button id="btn-start-memory" class="primary mb-4" type="button">Reiniciar juego</button>
         <div id="memory-board" class="memory-grid"></div>
         <p id="memory-status" class="status"></p>
+
+        <button class="primary btn-next mt-3" type="button" data-next="7">Siguiente sección</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA 7: TIRA DE FOTOS -->
+    <section id="screen-7" class="screen" aria-label="Tira de Fotos">
+      <button class="btn-prev" type="button" data-prev="6" title="Anterior">←</button>
+      <div class="inner panel">
+        <p class="eyebrow">GALERÍA</p>
+        <h2 class="mt-3">Momentos Juntas</h2>
+        <div class="photo-strip">
+          <div class="photo-placeholder">Foto 1</div>
+          <div class="photo-placeholder">Foto 2</div>
+          <div class="photo-placeholder">Foto 3</div>
+          <div class="photo-placeholder">Foto 4</div>
+        </div>
+        <button class="primary btn-next mt-2" type="button" data-next="8">Siguiente</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA 8: LABERINTO ROMÁNTICO -->
+    <section id="screen-8" class="screen" aria-label="Laberinto">
+      <button class="btn-prev" type="button" data-prev="7" title="Anterior">←</button>
+      <div class="inner panel">
+        <p class="eyebrow">MINIJUEGO</p>
+        <h2 class="mt-3">Laberinto de Amor</h2>
+        <p class="subtitle">Guía el camino hacia el punto de encuentro.</p>
+        <div class="maze">
+          <div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div>
+          <div class="maze-cell wall"></div><div class="maze-cell path">❤️</div><div class="maze-cell path"></div><div class="maze-cell path"></div><div class="maze-cell wall"></div><div class="maze-cell path"></div><div class="maze-cell path"></div><div class="maze-cell path"></div><div class="maze-cell wall"></div>
+          <div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell path"></div><div class="maze-cell wall"></div><div class="maze-cell path"></div><div class="maze-cell wall"></div><div class="maze-cell path"></div><div class="maze-cell wall"></div>
+          <div class="maze-cell wall"></div><div class="maze-cell path"></div><div class="maze-cell path"></div><div class="maze-cell path"></div><div class="maze-cell path"></div><div class="maze-cell path"></div><div class="maze-cell wall"></div><div class="maze-cell path"></div><div class="maze-cell wall"></div>
+          <div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell wall"></div><div class="maze-cell path">✨</div><div class="maze-cell wall"></div>
+        </div>
+        <button class="primary btn-next mt-3" type="button" data-next="9">Finalizar Aventura</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA 9: FINAL / CUMPLIMIENTO -->
+    <section id="screen-9" class="screen image-screen" aria-label="Final">
+      <button class="btn-prev" type="button" data-prev="8" title="Anterior" style="z-index: 20;">←</button>
+      <div class="photo-placeholder full-placeholder">Espacio para imagen final</div>
+      <div class="image-overlay"></div>
+      <div class="inner">
+        <p class="eyebrow">FELIZ ANIVERSARIO</p>
+        <h1 class="my-4" style="font-size: 2.8rem !important;">Por muchas más páginas juntas</h1>
+        <p class="subtitle">Te amo muchísimo ❤️</p>
       </div>
     </section>
 
@@ -219,13 +325,29 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Navegación entre pantallas
+      // Función universal para cambiar de pantalla
+      function goToScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(`screen-${screenId}`);
+        if (target) {
+          target.classList.add('active');
+          window.scrollTo(0, 0);
+        }
+      }
+
+      // Botones "Siguiente" genéricos
       document.querySelectorAll('.btn-next').forEach(btn => {
         btn.addEventListener('click', () => {
-          const nextScreenId = btn.getAttribute('data-next');
-          document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-          const nextScreen = document.getElementById(`screen-${nextScreenId}`);
-          if (nextScreen) nextScreen.classList.add('active');
+          const nextId = btn.getAttribute('data-next');
+          goToScreen(nextId);
+        });
+      });
+
+      // Botones "Anterior" (←)
+      document.querySelectorAll('.btn-prev').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const prevId = btn.getAttribute('data-prev');
+          goToScreen(prevId);
         });
       });
 
@@ -234,56 +356,47 @@
       const totalQuestions = 3;
       const quizErrorBox = document.getElementById('quiz-error');
       const quizRetryBtn = document.getElementById('btn-retry-quiz');
-      const quizNextBtn = document.getElementById('quiz-next-screen');
       const progressText = document.getElementById('question-progress');
 
-      function setupQuestionListeners() {
-        document.querySelectorAll('.question-block').forEach((qBlock) => {
-          const options = qBlock.querySelectorAll('.option');
-          options.forEach(opt => {
-            opt.addEventListener('click', () => {
-              const isCorrect = opt.getAttribute('data-correct') === 'true';
-              
-              // Deshabilitar temporalmente los botones de la pregunta actual
-              options.forEach(b => b.disabled = true);
+      document.querySelectorAll('.question-block').forEach((qBlock) => {
+        const options = qBlock.querySelectorAll('.option');
+        options.forEach(opt => {
+          opt.addEventListener('click', () => {
+            const isCorrect = opt.getAttribute('data-correct') === 'true';
+            options.forEach(b => b.disabled = true);
 
-              if (isCorrect) {
-                opt.style.background = '#86efac'; // Verde suave
-                setTimeout(() => {
-                  qBlock.classList.add('hidden');
-                  currentQuestion++;
+            if (isCorrect) {
+              opt.style.background = '#86efac'; // Verde acierto
+              setTimeout(() => {
+                qBlock.classList.add('hidden');
+                currentQuestion++;
 
-                  if (currentQuestion <= totalQuestions) {
-                    document.getElementById(`question-${currentQuestion}`).classList.remove('hidden');
-                    progressText.textContent = `Pregunta ${currentQuestion} de ${totalQuestions}`;
-                  } else {
-                    progressText.textContent = "¡Completaste el cuestionario!";
-                    quizNextBtn.classList.remove('hidden');
-                  }
-                }, 700);
-              } else {
-                opt.style.background = '#fca5a5'; // Rojo suave
-                quizErrorBox.classList.remove('hidden');
-              }
-            });
+                if (currentQuestion <= totalQuestions) {
+                  document.getElementById(`question-${currentQuestion}`).classList.remove('hidden');
+                  progressText.textContent = `Pregunta ${currentQuestion} de ${totalQuestions}`;
+                } else {
+                  // Cuestionario terminado: Salta automáticamente a la Pantalla 4 (Carta de premio)
+                  goToScreen(4);
+                }
+              }, 700);
+            } else {
+              opt.style.background = '#fca5a5'; // Rojo error
+              quizErrorBox.classList.remove('hidden');
+            }
           });
         });
-      }
+      });
 
-      // CORRECCIÓN: Botón Reintentar habilita nuevamente las opciones
       quizRetryBtn.addEventListener('click', () => {
         quizErrorBox.classList.add('hidden');
         const activeBlock = document.getElementById(`question-${currentQuestion}`);
         if (activeBlock) {
-          const options = activeBlock.querySelectorAll('.option');
-          options.forEach(opt => {
+          activeBlock.querySelectorAll('.option').forEach(opt => {
             opt.disabled = false;
             opt.style.background = 'var(--pale)';
           });
         }
       });
-
-      setupQuestionListeners();
 
       // --- LÓGICA DEL JUEGO DE MEMORIA ---
       const symbolsPool = ['❤️', '🌸', '✨', '🍕', '🐱', '🎵'];
@@ -298,7 +411,6 @@
       const memoryBoard = document.getElementById('memory-board');
       const memoryStatus = document.getElementById('memory-status');
 
-      // Selección de nivel
       levelsBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           levelsBtns.forEach(b => b.setAttribute('aria-pressed', 'false'));
@@ -308,11 +420,12 @@
         });
       });
 
-      startMemoryBtn.addEventListener('click', () => {
-        initMemoryGame();
-      });
+      if (startMemoryBtn) {
+        startMemoryBtn.addEventListener('click', initMemoryGame);
+      }
 
       function initMemoryGame() {
+        if (!memoryBoard) return;
         memoryBoard.innerHTML = '';
         flippedCards = [];
         matchedPairs = 0;
@@ -330,7 +443,6 @@
           cardEl.className = 'memory-card';
           cardEl.type = 'button';
           cardEl.dataset.symbol = symbol;
-          cardEl.dataset.index = index;
           cardEl.textContent = '?';
 
           cardEl.addEventListener('click', () => handleCardClick(cardEl));
@@ -370,7 +482,6 @@
         }
       }
 
-      // Inicialización por defecto
       initMemoryGame();
     });
   </script>
