@@ -320,14 +320,11 @@
     </section>
 
     <!-- PANTALLA 9: FINAL / CUMPLIMIENTO -->
-    <section id="screen-9" class="screen image-screen" aria-label="Final">
-      <button class="nav-btn btn-prev btn-goto" type="button" data-next="8" title="Anterior">←</button>
-      <div class="photo-placeholder full-placeholder">Espacio para imagen final</div>
-      <div class="image-overlay"></div>
-      <div class="inner">
-        <p class="eyebrow">FELIZ ANIVERSARIO</p>
-        <h1 class="my-4" style="font-size: 2.8rem !important;">Por muchas más páginas juntas</h1>
-        <p class="subtitle">Te amo muchísimo ❤️</p>
+   <section id="screen-9" class="screen image-screen active" aria-label="Final" style="background: var(--base); position: relative; overflow: hidden;">
+      <img src="final.jpg" alt="Final" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 20px; box-sizing: border-box;">
+      
+      <div class="inner" style="position: absolute; bottom: 25px; left: 0; right: 0; z-index: 1; text-align: center;">
+        <button class="primary btn-goto" type="button" data-next="1" style="padding: 12px 40px; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">Volver al Inicio</button>
       </div>
     </section>
 
