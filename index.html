@@ -273,10 +273,6 @@
           <button class="level" type="button" data-level="hard" aria-pressed="false">Difícil (12)</button>
         </div>
 
-        <button id="btn-start-memory" class="primary mb-4" type="button">Reiniciar juego</button>
-        <div id="memory-board" class="memory-grid"></div>
-        <p id="memory-status" class="status"></p>
-
         <button class="primary btn-goto mt-3" type="button" data-next="7">Siguiente sección</button>
       </div>
     </section>
@@ -448,7 +444,7 @@
           cardEl.className = 'memory-card';
           cardEl.type = 'button';
           cardEl.dataset.symbol = imgSrc;
-          cardEl.textContent = '❓'; // Texto cuando está boca abajo
+          cardEl.textContent = '🔹'; // Texto cuando está boca abajo
 
           cardEl.addEventListener('click', () => handleCardClick(cardEl));
           memoryBoard.appendChild(cardEl);
@@ -480,8 +476,8 @@
             setTimeout(() => {
               card1.classList.remove('flipped');
               card2.classList.remove('flipped');
-              card1.textContent = '❓';
-              card2.textContent = '❓';
+              card1.textContent = '🔹';
+              card2.textContent = '🔹';
               flippedCards = [];
             }, 900);
           }
