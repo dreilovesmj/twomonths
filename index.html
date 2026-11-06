@@ -162,14 +162,11 @@
   <main class="w-full">
     
     <!-- PANTALLA 1: INICIO -->
-    <section id="screen-1" class="screen image-screen active" aria-label="Inicio">
-      <button class="nav-btn btn-next-top btn-goto" type="button" data-next="2" title="Siguiente">→</button>
-      <div class="photo-placeholder full-placeholder">Espacio para imagen de portada</div>
+   <section id="screen-1" class="screen image-screen active" aria-label="Inicio">
+      <img src="portada.jpg" alt="Portada" class="full-placeholder" style="object-fit: cover;">
       <div class="image-overlay"></div>
-      <div class="inner">
-        <p class="eyebrow">UNA AVENTURA PARA NOSOTRAS</p>
-        <h1 class="my-5">Nuestra historia, otra vez</h1>
-        <button class="primary btn-goto" type="button" data-next="2">Comenzar</button>
+      <div class="inner" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; padding-bottom: 50px; z-index: 2;">
+        <button class="primary btn-goto" type="button" data-next="2" style="margin: 0 auto; padding: 14px 45px; font-size: 1.1rem;">Comenzar</button>
       </div>
     </section>
 
