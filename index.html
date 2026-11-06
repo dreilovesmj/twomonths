@@ -529,8 +529,8 @@
               cell.classList.add('wall');
             } else {
               cell.classList.add('path');
-              if (val === 2) cell.textContent = '❤️';
-              else if (val === 3) cell.textContent = '✨';
+              if (val === 2) cell.textContent = '💙';
+              else if (val === 3) cell.textContent = '💜';
             }
             mazeBoard.appendChild(cell);
           }
@@ -548,7 +548,7 @@
               playerPos = { r: newR, c: newC };
               mazeMap[newR][newC] = 2;
               renderMaze();
-              if (mazeStatus) mazeStatus.textContent = '🎉 ¡Llegaste al destino!';
+              if (mazeStatus) mazeStatus.textContent = '🎉 Ahora estaremos juntas siempre!';
               if (btnMazeNext) btnMazeNext.classList.remove('hidden');
               return;
             }
