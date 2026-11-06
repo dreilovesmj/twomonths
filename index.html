@@ -402,8 +402,9 @@
         });
       }
 
-      // --- LÓGICA DEL JUEGO DE MEMORIA ---
-      const symbolsPool = ['❤️', '🌸', '✨', '🍕', '🐱', '🎵'];
+      // --- LÓGICA DEL JUEGO DE MEMORIA CON IMÁGENES ---
+      // Reemplaza estos nombres con los archivos exactos que subiste a GitHub
+      const symbolsPool = ['tarjeta1.jpg', 'tarjeta2.jpg', 'tarjeta3.jpg', 'tarjeta4.jpg', 'tarjeta5.jpg', 'tarjeta6.jpg'];
       let selectedDifficulty = 'easy';
       let cards = [];
       let flippedCards = [];
@@ -435,19 +436,19 @@
         matchedPairs = 0;
         if (memoryStatus) memoryStatus.textContent = '';
 
-        if (selectedDifficulty === 'easy') totalPairs = 2;
-        else if (selectedDifficulty === 'medium') totalPairs = 4;
-        else if (selectedDifficulty === 'hard') totalPairs = 6;
+        if (selectedDifficulty === 'easy') totalPairs = 2; // 4 cartas
+        else if (selectedDifficulty === 'medium') totalPairs = 4; // 8 cartas
+        else if (selectedDifficulty === 'hard') totalPairs = 6; // 12 cartas
 
         const symbols = symbolsPool.slice(0, totalPairs);
         cards = [...symbols, ...symbols].sort(() => Math.random() - 0.5);
 
-        cards.forEach((symbol, index) => {
+        cards.forEach((imgSrc) => {
           const cardEl = document.createElement('button');
           cardEl.className = 'memory-card';
           cardEl.type = 'button';
-          cardEl.dataset.symbol = symbol;
-          cardEl.textContent = '?';
+          cardEl.dataset.symbol = imgSrc;
+          cardEl.textContent = '❓'; // Texto cuando está boca abajo
 
           cardEl.addEventListener('click', () => handleCardClick(cardEl));
           memoryBoard.appendChild(cardEl);
@@ -460,7 +461,8 @@
         }
 
         card.classList.add('flipped');
-        card.textContent = card.dataset.symbol;
+        // Muestra la imagen real ajustada al tamaño de la tarjeta
+        card.innerHTML = `<img src="${card.dataset.symbol}" alt="Memoria" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">`;
         flippedCards.push(card);
 
         if (flippedCards.length === 2) {
@@ -478,8 +480,8 @@
             setTimeout(() => {
               card1.classList.remove('flipped');
               card2.classList.remove('flipped');
-              card1.textContent = '?';
-              card2.textContent = '?';
+              card1.textContent = '❓';
+              card2.textContent = '❓';
               flippedCards = [];
             }, 900);
           }
